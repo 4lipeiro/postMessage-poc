@@ -6,20 +6,32 @@
 	<title>Start</title>
 
 	<script>
-		var game_url = "http://somewebsite.com/";
+		//sender side
+		
+		// game_url is where we want to send the msg to
+		var game_url = "http://somewebsite.com:5500/case1/"; // somewebsite.com -> localhost
+		
 		function popup(){
-			window.test = open(game_url, "pop", "width=850,height=750,resizable=1");
+			console.log('popup function called')
+			window.test = open(game_url, "pop", "width=850,height=750,resizable=1"); //opens the game_url in a new window
 			setTimeout(msg, 1000)
 		}
+
+		// function to send a message to the popup window
 		function msg(){
-			window.test.postMessage(JSON.stringify({"readyToPlay": true, "name": "Voorivex"}), "*");
+			// sends a message to the popup window once it is ready
+			window.test.postMessage(JSON.stringify({"readyToPlay": true, "name": "Voorivex"}), "*"); //set readyToPlay and name  -> convert to string -> send the message
+			//folowing line has also a URL property, but it is optional
+			//window.test.postMessage(JSON.stringify({"readyToPlay": true, "name": "Voorivex", "url": "https://memoryleaks.ir"}), "*"); 
+			console.log('msg has been sent and recived by the reciver.')
+
 		}
 	</script>
 </head>
 <body>
 
 <h1>Start</h1>
-<input type="button" value="Start" onclick="popup()" >
+<input type="button" value="Start" onclick="popup()" > <!-- button to start the game and call the popup function -->
 
 </body>
 </html>

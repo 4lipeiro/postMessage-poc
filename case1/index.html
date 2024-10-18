@@ -5,18 +5,40 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Some Site</title>
 
+	
 	<script>
+		//receiver side
+
+		//callback function
 		var postMessageHandler = function(e) {
-			// e.origin should be checked here
-			msg = JSON.parse(e.data)
+			// Ideally, you should verify the origin of the message to ensure it's coming from a trusted source.
+			// For example, uncomment and replace the URL to restrict the origin.
+			//if (e.origin !== "http://127.0.0.1:5500") {
+			//	console.log('origin was not trusted', e.origin)
+			//	return;
+			//}
+
+			console.log('callback function has been executed\n received message', e.data); // console log the recived data
+
+			msg = JSON.parse(e.data) //convert the string to object (json)
+			
+			//e.data is a string -> parsed to obj (json) -> this obj should have these proprties -> .readyToPlay & .name (used below)
 			if (msg.readyToPlay){
+				// Update the page content
 				document.getElementById("fs").innerText = "Ready to showcase your SUDOKU skills Mr. " + msg.name;
+				
+				// if the message contains a URL (optional), open the URL in a new window
 				if (msg.url){
 					window.open(msg.url)
+					console.log('url has been opened in a new window OR blocked by the pop up blocker')
 				}
 			}
 		}
+
+		//event handler -> waiting to recive the message from sender
 		window.addEventListener("message", postMessageHandler, false);
+		console.log('event listener activated, waiting for callback funciton execution ...')
+
 	</script>
 
 </head>
